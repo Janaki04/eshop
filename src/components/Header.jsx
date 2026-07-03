@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
+// 1. Import Link and NavLink from react-router-dom
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { ShoppingCart, Menu, X, Sun, Moon, LogIn, User, LogOut, Mail, Lock } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { toast } from 'react-toastify';
@@ -11,11 +13,21 @@ export default function Header() {
   const [currentUser, setCurrentUser] = useState(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
+  
+  const navigate = useNavigate();
 
   // Form Field States
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  // Nav Links Configuration
+  const navLinks = [
+    { name: 'Home', path: '/' },
+    { name: 'Products', path: '/products' },
+    { name: 'About Us', path: '/blog' },
+    { name: 'Contact Us', path: '/contact' }
+  ];
 
   // Synchronize layout dark mode class toggle
   useEffect(() => {
@@ -79,6 +91,9 @@ export default function Header() {
     setName('');
     setEmail('');
     setPassword('');
+    
+    // Redirect to a user dashboard view profile path if desired
+    navigate('/');
   };
 
   // Logout utility
@@ -88,6 +103,7 @@ export default function Header() {
     setIsDropdownOpen(false);
     setIsMobileMenuOpen(false);
     toast.info('Logged out securely.');
+    navigate('/');
   };
 
   // Generate 2-character avatar initials fallback
@@ -97,21 +113,21 @@ export default function Header() {
   };
 
   return (
-    <nav className="w-full bg-white dark:bg-slate-900 border-b border-gray-100 dark:border-slate-800 shadow-sm transition-colors duration-300 font-sans top-0 z-50">
+    <nav className="w-full bg-white dark:bg-slate-900 border-b border-gray-100 dark:border-slate-800 shadow-sm transition-colors duration-300 font-sans top-0 sticky z-50">
       
       {/* --- TOP ROW: BRANDING & UTILITIES --- */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20 gap-4">
           
-          {/* Brand Logo */}
+          {/* Brand Logo - Uses React Router Link */}
           <motion.div 
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.98 }}
             className="flex-shrink-0 flex items-center cursor-pointer"
           >
-            <span className="text-2xl font-black bg-gradient-to-r from-[#9B77E7] to-[#1600A0] bg-clip-text text-transparent tracking-tight">
+            <Link to="/" className="text-2xl font-black bg-gradient-to-r from-[#9B77E7] to-[#1600A0] bg-clip-text text-transparent tracking-tight">
               e-shop.
-            </span>
+            </Link>
           </motion.div>
 
           {/* Right Desktop Utilities Panel */}
@@ -203,16 +219,29 @@ export default function Header() {
       <div className="hidden md:block bg-gradient-to-r from-[#9B77E7] to-[#1600A0] text-white shadow-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-13 text-sm font-semibold">
+            {/* Main Links featuring NavLink with an active class accent indicator */}
             <div className="flex items-center space-x-1">
-              {['Home', 'Products', 'Blog', 'Contact'].map((link) => (
-                <a key={link} href={`#${link.toLowerCase()}`} className="px-3 py-2 rounded-lg hover:bg-white/10 transition-all duration-200">{link}</a>
+              {navLinks.map((link) => (
+                <NavLink 
+                  key={link.name} 
+                  to={link.path} 
+                  className={({ isActive }) => 
+                    `px-3 py-2 rounded-lg transition-all duration-200 ${
+                      isActive ? 'bg-white/20 shadow-inner text-[#1600A0]' : 'hover:bg-white/10'
+                    }`
+                  }
+                >
+                  {link.name}
+                </NavLink>
               ))}
             </div>
 
+            {/* Shopping Cart Link Router Wrapper */}
             <div className="flex my-2 items-center">
               <motion.button 
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.98 }}
+                onClick={() => navigate('/cart')}
                 className="flex items-center text-left bg-white/10 hover:bg-white/15 px-4 py-1.5 rounded-xl border border-white/10 backdrop-blur-sm transition-all duration-200"
               >
                 <div className="relative p-1">
@@ -238,7 +267,10 @@ export default function Header() {
             exit={{ opacity: 0, height: 0 }}
             className="md:hidden border-t border-gray-100 dark:border-slate-800 bg-white dark:bg-slate-900 px-4 pt-2 pb-6 space-y-4 shadow-inner overflow-hidden"
           >
-            <div className="bg-gray-50 dark:bg-slate-800/60 p-3 rounded-xl text-sm font-semibold text-slate-800 dark:text-slate-200 flex items-center justify-center space-x-2">
+            <div 
+              onClick={() => { setIsMobileMenuOpen(false); navigate('/cart'); }}
+              className="bg-gray-50 dark:bg-slate-800/60 p-3 rounded-xl text-sm font-semibold text-slate-800 dark:text-slate-200 flex items-center justify-center space-x-2 cursor-pointer"
+            >
               <ShoppingCart className="h-5 w-5 text-[#9B77E7]" />
               <span>Cart Total: <b className="text-[#1600A0] dark:text-purple-400">$ 150,00</b></span>
             </div>
@@ -253,9 +285,21 @@ export default function Header() {
               </div>
             )}
 
+            {/* Mobile Nav Links mapping */}
             <div className="flex flex-col space-y-1 font-semibold text-slate-700 dark:text-slate-300">
-              {['Home', 'Products', 'Blog', 'Contact'].map((link) => (
-                <a key={link} href={`#${link.toLowerCase()}`} className="px-3 py-2.5 rounded-xl hover:bg-gray-50 dark:hover:bg-slate-800/80 transition-colors">{link}</a>
+              {navLinks.map((link) => (
+                <NavLink 
+                  key={link.name} 
+                  to={link.path}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className={({ isActive }) => 
+                    `px-3 py-2.5 rounded-xl transition-colors ${
+                      isActive ? 'bg-purple-50 dark:bg-slate-800 text-[#9B77E7] font-bold' : 'hover:bg-gray-50 dark:hover:bg-slate-800/80'
+                    }`
+                  }
+                >
+                  {link.name}
+                </NavLink>
               ))}
             </div>
 

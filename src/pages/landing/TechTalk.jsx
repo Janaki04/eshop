@@ -52,8 +52,8 @@ export default function TechTalk() {
         {/* --- HEADER TITLE BAR --- */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
           <div className="space-y-2">
-            <h2 className="text-3xl font-black text-slate-800 dark:text-slate-100 tracking-tight">
-              Tech Talk
+            <h2 className="text-start text-3xl font-black text-slate-800 dark:text-slate-100 tracking-tight">
+              About us
             </h2>
             <p className="text-gray-400 dark:text-slate-400 text-sm font-medium">
               Stay up to date with the latest trends, reviews, and insights from our experts.
