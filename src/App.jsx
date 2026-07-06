@@ -22,30 +22,18 @@ function App() {
 
   return (
     <BrowserRouter>
-      {/* Header stays persistent across all route views */}
       <Header />
-
-      {/* Dynamic Route Switching Viewport Area */}
       <main className="min-h-[calc(100vh-160px)]">
         <Routes>
-          {/* Main Landing / Home Route displaying your Hero block */}
           <Route path="/" element={<HeroCarousel />} />
-          
-          {/* Inner Pages Routing Targets */}
           <Route path="/products" element={<ProductsPage />} />
           <Route path="/blog" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/cart" element={<CartPage />} />
-          
-          {/* Fallback 404 Route handling unknown path types */}
           <Route path="*" element={<div className="p-20 text-center dark:text-white font-bold">404 - Page Not Found</div>} />
         </Routes>
       </main>
-
-      {/* Footer stays persistent at the bottom */}
       <Footer />
-
-      {/* Global Toast Notification Container Layer */}
       <ToastContainer 
         position="top-right"
         autoClose={3000}

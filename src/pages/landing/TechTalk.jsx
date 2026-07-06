@@ -41,7 +41,6 @@ const POSTS = [
 ];
 
 export default function TechTalk() {
-  // Functional logic: Click sidebar entries to seamlessly switch the main showcase feature!
   const [activeId, setActiveId] = useState(1);
   const featuredPost = POSTS.find(post => post.id === activeId) || POSTS[0];
 
@@ -67,10 +66,8 @@ export default function TechTalk() {
           </a>
         </div>
 
-        {/* --- MAIN RESPONSIBLE RESPONSIVE LAYOUT MATRIX --- */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
           
-          {/* LEFT COLUMN: ACTIVE FEATURED HERO POST (Spans 7 out of 12 columns) */}
           <div className="lg:col-span-7 space-y-6">
             <div className="w-full aspect-[16/9] rounded-3xl overflow-hidden bg-gray-100 dark:bg-slate-900 relative shadow-sm group">
               <AnimatePresence mode="wait">
@@ -87,7 +84,6 @@ export default function TechTalk() {
               </AnimatePresence>
             </div>
 
-            {/* Featured Post Meta Data Text Block */}
             <div className="space-y-4">
               <AnimatePresence mode="wait">
                 <motion.div
@@ -107,7 +103,6 @@ export default function TechTalk() {
                 </motion.div>
               </AnimatePresence>
 
-              {/* Tag and Author Line matching Screenshot 2026-07-02 at 11.51.04 AM.jpg exactly */}
               <div className="flex items-center space-x-3 pt-2 text-xs font-bold text-gray-400 dark:text-slate-500">
                 <span className="px-3 py-1.5 rounded-lg bg-gradient-to-r from-[#9B77E7] to-[#1600A0] text-white tracking-wide uppercase text-[10px]">
                   {featuredPost.tag}
@@ -119,7 +114,6 @@ export default function TechTalk() {
             </div>
           </div>
 
-          {/* RIGHT COLUMN: INTERACTIVE SIDEBAR POST LIST (Spans 5 out of 12 columns) */}
           <div className="lg:col-span-5 divide-y divide-gray-100 dark:divide-slate-800/80">
             {POSTS.map((post) => {
               const isActive = post.id === activeId;
@@ -132,7 +126,6 @@ export default function TechTalk() {
                     isActive ? 'opacity-100' : 'opacity-70 hover:opacity-100'
                   }`}
                 >
-                  {/* Category/Tag Indicator Label */}
                   <div>
                     <span className={`inline-block px-2.5 py-1 rounded-md text-[10px] font-extrabold uppercase tracking-wider ${
                       isActive 
@@ -143,7 +136,6 @@ export default function TechTalk() {
                     </span>
                   </div>
 
-                  {/* Sidebar Header Text */}
                   <h4 className={`text-base font-extrabold tracking-tight leading-snug transition-colors duration-200 ${
                     isActive 
                       ? 'text-[#1600A0] dark:text-purple-400 font-black' 
@@ -152,7 +144,6 @@ export default function TechTalk() {
                     {post.title}
                   </h4>
 
-                  {/* Sidebar Post Date */}
                   <span className="text-[11px] text-gray-400 dark:text-slate-500 font-semibold tracking-wide">
                     {post.date}
                   </span>

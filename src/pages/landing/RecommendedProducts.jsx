@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { ChevronLeft, ChevronRight, Heart, Share2, Star } from 'lucide-react';
 import { motion } from 'framer-motion';
 
-// Mock data populated with the requested audio brands matching the structural format of Screenshot 2026-07-02 at 11.18.46 AM.jpg
 const PRODUCTS = [
   {
     id: 1,
@@ -73,7 +72,6 @@ export default function RecommendedProducts() {
     <section className="w-full bg-[#FAFAFA] dark:bg-slate-950 py-8 transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* SECTION HEADER BLOCK */}
         <div className="flex items-center justify-between mb-8">
           <h2 className="text-2xl font-extrabold text-slate-800 dark:text-slate-100 tracking-tight">
             Recommended Products
@@ -86,15 +84,12 @@ export default function RecommendedProducts() {
           </a>
         </div>
 
-        {/* PRODUCTS GRID CONTAINER */}
         <div className="relative">
           
-          {/* Decorative Left Nav Arrow Slider Button */}
           <button className="absolute -left-4 top-1/2 -translate-y-1/2 z-10 p-2.5 rounded-full bg-white dark:bg-slate-800 shadow-md border border-gray-100 dark:border-slate-700 text-gray-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors hidden xl:flex">
             <ChevronLeft className="h-4 w-4" />
           </button>
 
-          {/* Core Grid Matrix */}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5">
             {PRODUCTS.map((product) => {
               const isHovered = hoveredCardId === product.id;
@@ -106,7 +101,6 @@ export default function RecommendedProducts() {
                   onMouseEnter={() => setHoveredCardId(product.id)}
                   onMouseLeave={() => setHoveredCardId(null)}
                 >
-                  {/* Top Action Row (Badges & Wishlist) */}
                   <div className="flex justify-between items-start h-6 z-10 w-full mb-2">
                     {product.discount ? (
                       <span className="bg-red-50 text-red-500 dark:bg-red-950/40 dark:text-red-400 text-[10px] font-bold px-2 py-0.5 rounded-md">
@@ -114,7 +108,6 @@ export default function RecommendedProducts() {
                       </span>
                     ) : <span />}
 
-                    {/* Wishlist/Share Floating controls triggered during layout hover state */}
                     <div className={`flex flex-col space-y-1.5 transition-opacity duration-200 ${isHovered ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
                       <button className="p-1.5 rounded-full bg-white dark:bg-slate-800 shadow-md text-gray-400 hover:text-red-500 transition-colors border border-gray-50 dark:border-slate-700">
                         <Heart className="h-3.5 w-3.5" />
@@ -125,7 +118,6 @@ export default function RecommendedProducts() {
                     </div>
                   </div>
 
-                  {/* PRODUCT IMAGE FRAME */}
                   <div className="w-full aspect-square flex items-center justify-center mb-4 relative p-2">
                     <img
                       src={product.image}
@@ -134,7 +126,6 @@ export default function RecommendedProducts() {
                     />
                   </div>
 
-                  {/* CARD ACTION SLIDEOVER PANEL */}
                   <div className="relative overflow-hidden h-10 w-full mb-4">
                     {isHovered ? (
                       <motion.button
@@ -153,13 +144,11 @@ export default function RecommendedProducts() {
                     )}
                   </div>
 
-                  {/* INFO METADATA CONTAINER */}
                   <div className="space-y-2">
                     <h3 className={`text-sm font-semibold text-slate-700 dark:text-slate-200 line-clamp-2 min-h-[40px] leading-snug transition-colors ${isHovered ? 'text-[#1600A0] dark:text-purple-400' : ''}`}>
                       {product.name}
                     </h3>
 
-                    {/* Star Breakdown */}
                     <div className="flex items-center space-x-1">
                       <div className="flex text-amber-400">
                         {[...Array(5)].map((_, i) => (
@@ -171,7 +160,6 @@ export default function RecommendedProducts() {
                       </span>
                     </div>
 
-                    {/* Pricing Segment */}
                     <div className="flex items-baseline space-x-2 pt-1">
                       <span className="text-base font-black text-slate-800 dark:text-slate-100">
                         ${product.price.toLocaleString('en-US', { minimumFractionDigits: 2 })}
@@ -189,7 +177,6 @@ export default function RecommendedProducts() {
             })}
           </div>
 
-          {/* Decorative Right Nav Arrow Slider Button */}
           <button className="absolute -right-4 top-1/2 -translate-y-1/2 z-10 p-2.5 rounded-full bg-[#1600A0] shadow-md text-white hover:opacity-90 transition-opacity hidden xl:flex">
             <ChevronRight className="h-4 w-4" />
           </button>

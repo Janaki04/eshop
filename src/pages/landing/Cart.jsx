@@ -9,7 +9,7 @@ const INITIAL_CART = [
     variant: 'Space Gray',
     price: 1659.00,
     quantity: 1,
-    image: '💻' // Replace with your image assets
+    image: '💻'
   },
   {
     id: 2,
@@ -28,7 +28,7 @@ const INITIAL_CART = [
     price: 2299.00,
     quantity: 2,
     image: '📺',
-    highlighted: true // Replicates the distinct container border box from the reference image
+    highlighted: true
   },
   {
     id: 4,
@@ -55,7 +55,6 @@ export default function CartPage() {
   const [couponCode, setCouponCode] = useState('');
   const [discount, setDiscount] = useState(0);
 
-  // Dynamic calculations
   const subtotal = useMemo(() => {
     return cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
   }, [cartItems]);
@@ -64,7 +63,6 @@ export default function CartPage() {
     return Math.max(0, subtotal - discount);
   }, [subtotal, discount]);
 
-  // Actions
   const updateQuantity = (id, amount) => {
     setCartItems(prev =>
       prev.map(item => {
@@ -103,7 +101,6 @@ export default function CartPage() {
           Your Cart
         </h1>
 
-        {/* --- DESKTOP TABLE HEADERS CONTAINER --- */}
         <div className="hidden md:grid grid-cols-12 bg-gray-50 dark:bg-slate-900/60 p-4 rounded-lg font-bold text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 border border-gray-100 dark:border-slate-800 mb-6">
           <div className="col-span-6">Product</div>
           <div className="col-span-2 text-center">Price</div>
@@ -111,7 +108,6 @@ export default function CartPage() {
           <div className="col-span-2 text-right">Total</div>
         </div>
 
-        {/* --- CART ITEM LIST CONTEXT PANEL --- */}
         <div className="space-y-4">
           {cartItems.map((item) => (
             <div 
@@ -122,7 +118,6 @@ export default function CartPage() {
                   : 'border-transparent dark:border-transparent'
               }`}
             >
-              {/* Product Info Segment */}
               <div className="col-span-1 md:col-span-6 flex gap-4 items-start">
                 <div className="w-24 h-24 bg-gray-50 dark:bg-slate-800 rounded-xl flex items-center justify-center text-4xl shrink-0 border border-gray-100 dark:border-slate-700 select-none">
                   {item.image}
@@ -138,13 +133,11 @@ export default function CartPage() {
                 </div>
               </div>
 
-              {/* Price Segment */}
               <div className="col-span-1 md:col-span-2 text-left md:text-center">
                 <span className="md:hidden text-xs font-bold text-gray-400 mr-2">Price:</span>
                 <span className="text-sm font-bold text-slate-800 dark:text-slate-200">${item.price.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
               </div>
 
-              {/* Quantity Interface Controllers */}
               <div className="col-span-1 md:col-span-2 flex justify-start md:justify-center">
                 <div className="flex items-center bg-gray-50 dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-lg p-1">
                   <button 
@@ -165,13 +158,11 @@ export default function CartPage() {
                 </div>
               </div>
 
-              {/* Line Total Segment */}
               <div className="col-span-1 md:col-span-2 text-left md:text-right font-black text-slate-900 dark:text-white text-sm md:pr-4">
                 <span className="md:hidden text-xs font-bold text-gray-400 mr-2">Total:</span>
                 ${(item.price * item.quantity).toLocaleString('en-US', { minimumFractionDigits: 2 })}
               </div>
 
-              {/* Float Panel Action Triggers (Aligned specifically like the highlighted element in Screenshot 2026-07-03 at 3.23.59 PM.png) */}
               <div className="absolute right-4 top-1/2 -translate-y-1/2 flex flex-col gap-2 md:opacity-0 group-hover:opacity-100 md:group-hover:right-6 md:absolute md:flex transition-all">
                 <button 
                   onClick={() => removeItem(item.id)}
@@ -197,10 +188,8 @@ export default function CartPage() {
           )}
         </div>
 
-        {/* --- CALCULATIONS & VOUCHERS SUB PANEL --- */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 pt-12 items-start">
           
-          {/* Voucher Entry Form Box */}
           <form onSubmit={handleApplyCoupon} className="lg:col-span-5 flex gap-2 border border-gray-200 dark:border-slate-800 rounded-xl p-2 bg-white dark:bg-slate-900">
             <input 
               type="text"
@@ -217,7 +206,6 @@ export default function CartPage() {
             </button>
           </form>
 
-          {/* Subtotal Display Summary */}
           <div className="lg:col-span-7 flex flex-col items-end space-y-4">
             <div className="w-full md:w-[420px] bg-gray-50 dark:bg-slate-900 rounded-xl p-4 border border-gray-100 dark:border-slate-800 flex justify-between items-center text-xs">
               <span className="font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Sub Total</span>
@@ -229,7 +217,6 @@ export default function CartPage() {
               </div>
             </div>
 
-            {/* Checkouts Actions Triggers */}
             <div className="flex items-center gap-4">
               <button className="text-xs font-bold text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white transition-colors underline decoration-2 underline-offset-4">
                 Continue Shopping
@@ -244,7 +231,6 @@ export default function CartPage() {
           </div>
         </div>
 
-        {/* --- BOTTOM RETAIL TRUST FOOTER ACCENTS --- */}
         <div className="mt-16 pt-8 border-t border-gray-100 dark:border-slate-950 grid grid-cols-2 md:grid-cols-4 gap-6 text-[11px] text-slate-500 dark:text-slate-400">
           <div className="flex items-start gap-2.5">
             <Headphones size={16} className="text-slate-400 shrink-0 mt-0.5" />

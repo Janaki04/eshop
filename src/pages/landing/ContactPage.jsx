@@ -14,14 +14,12 @@ export default function ContactPage() {
     <div className="bg-white dark:bg-slate-950 text-slate-800 dark:text-slate-200 min-h-screen py-4 md:py-8 font-sans antialiased selection:bg-[#9B77E7]/20 transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         
-        {/* --- MAIN PAGE HEADING WITH GRADIENT --- */}
         <div>
        <h1 className="text-start text-3xl md:text-4xl font-black tracking-tight bg-gradient-to-r from-[#9B77E7] via-[#6366F1] to-[#1600A0] bg-clip-text text-transparent">
   Contact Us
 </h1>
         </div>
 
-        {/* --- MAP CANVAS LAYER --- */}
         <div className="w-full h-[320px] md:h-[420px] rounded-2xl overflow-hidden relative border border-gray-100 dark:border-slate-800 shadow-sm group">
           <iframe
             title="E-Shop Headquarters Location Map"
@@ -31,7 +29,6 @@ export default function ContactPage() {
             loading="lazy"
           ></iframe>
 
-          {/* Floating Address Overlay Card */}
           <div className="absolute top-4 left-4 bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm p-4 rounded-xl shadow-xl w-64 border border-gray-100 dark:border-slate-800 transition-transform duration-200 hover:scale-[1.01]">
             <div className="flex gap-3">
               <div className="flex-1">
@@ -55,7 +52,6 @@ export default function ContactPage() {
             </div>
           </div>
 
-          {/* Map Controls */}
           <div className="absolute bottom-6 right-4 bg-white dark:bg-slate-900 rounded-xl shadow-lg border border-gray-100 dark:border-slate-800 flex flex-col overflow-hidden">
             <button onClick={() => setZoom(z => Math.min(18, z + 1))} className="p-2.5 hover:bg-gray-50 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 border-b border-gray-100 dark:border-slate-800 transition-colors">
               <Plus size={16} strokeWidth={2.5} />
@@ -66,10 +62,8 @@ export default function ContactPage() {
           </div>
         </div>
 
-        {/* --- COLUMN CONTENT SPLIT --- */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 pt-4">
           
-          {/* Interactive Form Panel */}
           <div className="lg:col-span-2 space-y-6">
             <div>
               <h2 className="text-xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-1">Send us a Message</h2>
@@ -139,7 +133,6 @@ export default function ContactPage() {
             </form>
           </div>
 
-          {/* Sidebar Parameter Sidebar Info */}
           <div className="bg-gray-50/70 dark:bg-slate-900/40 border border-gray-100/80 dark:border-slate-800/80 p-6 md:p-8 rounded-2xl h-fit space-y-6">
             <div>
               <h3 className="text-lg font-black text-slate-900 dark:text-white tracking-tight mb-2">Let's Keep in Touch!</h3>
@@ -163,7 +156,6 @@ export default function ContactPage() {
               </div>
             </div>
 
-            {/* Business hours listing panel */}
             <div className="mt-8 border-t border-gray-200/60 dark:border-slate-800 pt-6">
               <h4 className="text-xs font-black uppercase text-slate-900 dark:text-white tracking-widest mb-4 flex items-center gap-2">
                 <Clock size={14} className="text-[#9B77E7]" /> Opening Hours

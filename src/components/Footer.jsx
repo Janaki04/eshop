@@ -53,10 +53,8 @@ export default function Footer() {
         )}
       </div>
 
-      {/* --- LINKS NAVIGATION GRID --- */}
       <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 xl:gap-12 pb-12 border-b border-gray-200 dark:border-slate-800">
         
-        {/* Contacts Column */}
         <div className="space-y-6">
           <h3 className="text-slate-900 dark:text-white font-bold text-base">Contact Us</h3>
           <ul className="space-y-3.5 text-xs md:text-sm">
@@ -87,7 +85,6 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Categories Column */}
         <div className="space-y-4">
           <h3 className="text-slate-900 dark:text-white font-bold text-base">Categories</h3>
           <ul className="space-y-2.5 text-xs md:text-sm">
@@ -99,7 +96,6 @@ export default function Footer() {
           </ul>
         </div>
 
-        {/* Supports Column */}
         <div className="space-y-4">
           <h3 className="text-slate-900 dark:text-white font-bold text-base">Supports</h3>
           <ul className="space-y-2.5 text-xs md:text-sm">
@@ -111,7 +107,6 @@ export default function Footer() {
           </ul>
         </div>
 
-        {/* Links Column */}
         <div className="space-y-4">
           <h3 className="text-slate-900 dark:text-white font-bold text-base">Links</h3>
           <ul className="space-y-2.5 text-xs md:text-sm">
@@ -123,7 +118,6 @@ export default function Footer() {
           </ul>
         </div>
 
-        {/* Payments & Follow Column */}
         <div className="space-y-6">
           <div className="space-y-3">
             <h3 className="text-slate-900 dark:text-white font-bold text-base">Payments</h3>
@@ -152,7 +146,6 @@ export default function Footer() {
 
       </div>
 
-      {/* --- SUB FOOTER BANNER --- */}
       <div className="max-w-7xl mx-auto pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
         <p>© Copyright 2026 E-Shop. All Rights Reserved.</p>
         <div className="flex items-center gap-4">

@@ -7,7 +7,6 @@ export default function ProductDetails({ product, onClose, onAddToCart, onAddToW
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState('Specification');
 
-  // Dynamically populates custom spec breakdowns for whatever product is active
   const dynamicSpecs = useMemo(() => {
     if (!product) return { left: [], right: [] };
     return {
@@ -33,7 +32,6 @@ export default function ProductDetails({ product, onClose, onAddToCart, onAddToW
       exit={{ opacity: 0 }} 
       className="bg-white dark:bg-slate-900 rounded-2xl border border-gray-100 dark:border-slate-800 p-6 shadow-xl transition-colors duration-300"
     >
-      {/* --- BREADCRUMBS & CLOSE CONTROL BAR --- */}
       <div className="flex justify-between items-center border-b border-gray-100 dark:border-slate-800 pb-4 mb-6">
         <div className="text-xs text-gray-400 dark:text-slate-500 space-x-1">
           <span>Home</span><span>/</span><span>Category Listing</span><span>/</span><span>{product.category}</span><span>/</span>
@@ -46,9 +44,7 @@ export default function ProductDetails({ product, onClose, onAddToCart, onAddToW
         </button>
       </div>
 
-      {/* --- TWO COLUMN WRAPPER --- */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-        {/* Left Interactive Asset Canvas Row */}
         <div>
           <div className="relative border border-gray-100 dark:border-slate-800 bg-gray-50 dark:bg-slate-800/30 rounded-xl p-8 flex items-center justify-center h-80 text-9xl select-none">
             {product.image}
@@ -57,7 +53,6 @@ export default function ProductDetails({ product, onClose, onAddToCart, onAddToW
             </button>
           </div>
           
-          {/* Static multi-thumbnails simulator layer */}
           <div className="flex gap-3 mt-4">
             {[1, 2, 3].map((thumb) => (
               <div key={thumb} className={`w-16 h-16 border rounded-lg flex items-center justify-center bg-gray-50 dark:bg-slate-800/40 text-2xl cursor-pointer transition-all ${thumb === 1 ? 'border-[#9B77E7] ring-1 ring-[#9B77E7]' : 'border-gray-100 dark:border-slate-800'}`}>
@@ -66,7 +61,6 @@ export default function ProductDetails({ product, onClose, onAddToCart, onAddToW
             ))}
           </div>
 
-          {/* Marketing Trust Badges */}
           <div className="grid grid-cols-3 gap-2 mt-8 border-t border-gray-100 dark:border-slate-800 pt-6 text-center text-[11px] text-gray-500 dark:text-slate-400">
             <div className="flex flex-col items-center"><Truck size={18} className="text-[#9B77E7] mb-1" /><span className="font-bold dark:text-slate-300">Free Shipping</span><span>Worldwide available</span></div>
             <div className="flex flex-col items-center"><ShieldCheck size={18} className="text-[#9B77E7] mb-1" /><span className="font-bold dark:text-slate-300">100% Guaranteed</span><span>Receive product first</span></div>
@@ -74,7 +68,6 @@ export default function ProductDetails({ product, onClose, onAddToCart, onAddToW
           </div>
         </div>
 
-        {/* Right Configuration Parameters Column */}
         <div className="flex flex-col justify-between">
           <div>
             <div className="flex items-center gap-1 text-amber-400 text-xs mb-2">
@@ -90,14 +83,12 @@ export default function ProductDetails({ product, onClose, onAddToCart, onAddToW
               </span>
             </div>
 
-            {/* Quick Param Table Lists */}
             <div className="space-y-2.5 border-t border-gray-100 dark:border-slate-800/80 pt-4 text-xs mb-6">
               <div className="grid grid-cols-3"><span className="text-gray-400 font-bold">Category Tier</span><span className="col-span-2 text-slate-700 dark:text-slate-300">{product.category} Division</span></div>
               <div className="grid grid-cols-3"><span className="text-gray-400 font-bold">Availability Status</span><span className="col-span-2 text-green-500 font-bold">In Stock & Ready</span></div>
               <div className="grid grid-cols-3"><span className="text-gray-400 font-bold">Global Delivery</span><span className="col-span-2 text-slate-700 dark:text-slate-300">Worldwide Shipping Protocol</span></div>
             </div>
 
-            {/* Variant Selector Button Array */}
             <div className="mb-6">
               <span className="text-xs font-bold text-gray-400 block mb-2">Available Variants</span>
               <div className="flex flex-wrap gap-2">
@@ -110,7 +101,6 @@ export default function ProductDetails({ product, onClose, onAddToCart, onAddToW
             </div>
           </div>
 
-          {/* Quantity Controls & Call to Action Bar */}
           <div className="flex items-center gap-4 border-t border-gray-100 dark:border-slate-800 pt-6">
             <div className="flex items-center border border-gray-200 dark:border-slate-700 rounded-lg bg-gray-50 dark:bg-slate-800/60 p-1">
               <button onClick={() => setQuantity(q => Math.max(1, q - 1))} className="p-1.5 hover:bg-gray-200 dark:hover:bg-slate-700 rounded text-gray-500"><Minus size={14} /></button>
@@ -129,7 +119,6 @@ export default function ProductDetails({ product, onClose, onAddToCart, onAddToW
         </div>
       </div>
 
-      {/* --- SPECIFICATION EMBEDDED TABS --- */}
       <div className="mt-12 border-b border-gray-100 dark:border-slate-800 flex gap-6 text-sm font-bold text-gray-400">
         {['Description', 'Specification', 'Return', 'Reviews'].map((tab) => (
           <button key={tab} onClick={() => setActiveTab(tab)} className={`pb-3 relative transition-colors ${activeTab === tab ? 'text-slate-800 dark:text-white border-b-2 border-[#9B77E7]' : 'hover:text-slate-600'}`}>
@@ -138,7 +127,6 @@ export default function ProductDetails({ product, onClose, onAddToCart, onAddToW
         ))}
       </div>
 
-      {/* Dynamic Data Content Rendering Block */}
       <div className="py-6 text-xs text-slate-600 dark:text-slate-300 leading-relaxed grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4">
         {activeTab === 'Specification' && (
           <>
@@ -157,7 +145,6 @@ export default function ProductDetails({ product, onClose, onAddToCart, onAddToW
         {activeTab !== 'Specification' && <div className="col-span-2 py-6 text-center text-gray-400 italic">Extended specifications log sheets are under asset compilation.</div>}
       </div>
 
-      {/* --- RELATED PRODUCTS STRIP FOOTER --- */}
       <div className="mt-12 pt-8 border-t border-gray-100 dark:border-slate-800">
         <div className="flex justify-between items-center mb-6">
           <h3 className="text-md font-black text-slate-800 dark:text-white">Related Products Strip</h3>

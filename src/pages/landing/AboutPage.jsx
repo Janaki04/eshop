@@ -24,7 +24,6 @@ export default function AboutPage() {
     <div className="bg-white dark:bg-slate-950 text-slate-800 dark:text-slate-200 min-h-screen py-4 md:py-8 font-sans antialiased selection:bg-[#9B77E7]/20 transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         
-        {/* --- MAIN PAGE HEADING WITH BULLETPROOF GRADIENT FIX --- */}
         <h1 
           className="text-start text-2xl md:text-3xl font-black mb-2 bg-gradient-to-r from-[#9B77E7] to-[#1600A0] dark:from-[#b496f0] dark:to-[#6366F1]" 
           style={{ 
@@ -36,10 +35,8 @@ export default function AboutPage() {
           About Us
         </h1>
 
-        {/* --- HERO BANNER LAYOUT ASSET BLOCK --- */}
         <div className="w-full h-[280px] md:h-[380px] rounded-2xl overflow-hidden relative border border-gray-100 dark:border-slate-800 shadow-sm bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 flex items-center p-6 md:p-12">
           
-          {/* Grid visual lines indicator layer overlay */}
           <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#808080_1px,transparent_1px),linear-gradient(to_bottom,#808080_1px,transparent_1px)] bg-[size:24px_24px]"></div>
           
           <div className="max-w-2xl relative z-10 space-y-4">
@@ -54,17 +51,14 @@ export default function AboutPage() {
             </p>
           </div>
 
-          {/* Floating Aesthetic Brand Accent matching E-Shop Headquarter UI layout block */}
           <div className="absolute bottom-4 right-4 bg-white/10 backdrop-blur-md p-4 rounded-xl border border-white/10 text-white hidden sm:block w-56">
             <h3 className="font-bold text-xs">Established 2023</h3>
             <p className="text-[11px] text-slate-300 mt-1">Operating out of Anytown, New York USA with next-generation distribution channels.</p>
           </div>
         </div>
 
-        {/* --- MAIN SPLIT STORY CONTENT SHEET --- */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 pt-4">
           
-          {/* Narrative Content Blocks Column */}
           <div className="lg:col-span-2 space-y-6">
             <div>
               <h2 className="text-3xl font-black text-slate-900 dark:text-white tracking-tight mb-2">Our Story</h2>
@@ -80,7 +74,6 @@ export default function AboutPage() {
               </p>
             </div>
 
-            {/* Core Values Feature Mapping Grid */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-6">
               {coreValues.map((val, idx) => (
                 <div key={idx} className="border border-gray-100 dark:border-slate-800 p-5 rounded-xl shadow-inner space-y-3 bg-white dark:bg-slate-900 hover:border-slate-300 dark:hover:border-slate-700 transition-colors">
@@ -94,7 +87,6 @@ export default function AboutPage() {
             </div>
           </div>
 
-          {/* Right Information Sidebar Widget Box */}
           <div className="bg-gray-50/70 dark:bg-slate-900/40 border border-gray-100/80 dark:border-slate-800/80 p-6 md:p-8 rounded-2xl h-fit space-y-6">
             <div>
               <h3 className="text-lg font-black text-slate-900 dark:text-white tracking-tight mb-2">Corporate Footprint</h3>
@@ -114,7 +106,6 @@ export default function AboutPage() {
               </div>
             </div>
 
-            {/* Business metrics stats sub-card footer block */}
             <div className="mt-8 border-t border-gray-200/60 dark:border-slate-800 pt-6">
               <h4 className="text-xs font-black uppercase text-slate-900 dark:text-white tracking-widest mb-4 flex items-center gap-2">
                 Operational Scaling

@@ -56,7 +56,6 @@ export default function Faq() {
                   onClick={() => toggleAccordion(index)}
                   className="w-full flex items-start gap-4 sm:gap-5 px-6 sm:px-8 py-6 sm:py-7 text-left focus:outline-none"
                 >
-                  {/* Status Indicator Icon Circle */}
                   <div
                     className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 transition-all duration-300
                     ${
@@ -83,7 +82,6 @@ export default function Faq() {
                       {item.question}
                     </h3>
 
-                    {/* Smooth height transitions using CSS Grid mapping */}
                     <div
                       className={`grid transition-all duration-300 overflow-hidden ${
                         isOpen

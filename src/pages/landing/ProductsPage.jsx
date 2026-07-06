@@ -61,7 +61,6 @@ export default function ProductsPage() {
           {!activeQuickView ? (
             <motion.div key="list" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
               
-              {/* Heading with Gradient Fixed */}
               <h1 
                 className="text-start text-2xl md:text-3xl font-black mb-6 bg-gradient-to-r from-[#9B77E7] to-[#1600A0] dark:from-[#b496f0] dark:to-[#6366F1]"
                 style={{ 
@@ -73,7 +72,6 @@ export default function ProductsPage() {
                 Products
               </h1>
 
-              {/* Filters Toolbar */}
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white dark:bg-slate-900 p-4 rounded-xl border border-gray-100 dark:border-slate-800 shadow-sm mb-8 transition-colors duration-300">
                 <div className="flex flex-wrap items-center gap-3">
                   <div className="relative min-w-[145px]">
@@ -90,7 +88,6 @@ export default function ProductsPage() {
                     <ChevronDown size={14} className="absolute right-3 top-3 text-gray-400" />
                   </div>
 
-                  {/* Ratings Filter Dropdown menu */}
                   <div className="relative min-w-[145px]">
                     <select value={selectedRating} onChange={(e) => setSelectedRating(e.target.value)} className="w-full appearance-none bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-lg pl-3 pr-10 py-2 text-xs font-semibold text-slate-600 dark:text-slate-300 focus:outline-none focus:ring-2 focus:ring-[#9B77E7]">
                       {ratingOptions.map(rate => <option key={rate} value={rate} className="dark:bg-slate-900">{rate}</option>)}
@@ -108,7 +105,6 @@ export default function ProductsPage() {
                 </div>
               </div>
 
-              {/* Items Display Grid/List Layout Wrappers */}
               <div className={viewMode === 'grid' 
                 ? "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5" 
                 : "flex flex-col gap-4"
@@ -128,7 +124,6 @@ export default function ProductsPage() {
                       </span>
                     )}
 
-                    {/* Image Box */}
                     <div className={`relative bg-gray-50 dark:bg-slate-800/50 rounded-xl flex items-center justify-center text-5xl select-none overflow-hidden shrink-0 ${
                       viewMode === 'grid' ? 'h-44 w-full mb-4' : 'h-28 w-28'
                     }`}>
@@ -143,7 +138,6 @@ export default function ProductsPage() {
                       </div>
                     </div>
 
-                    {/* Content Section */}
                     <div className="flex-1 flex flex-col justify-between w-full">
                       <div>
                         <span className="text-[10px] uppercase font-black text-gray-400 tracking-wider">{product.category}</span>
@@ -164,7 +158,6 @@ export default function ProductsPage() {
                         </div>
                       </div>
 
-                      {/* Call to Actions Panel Row */}
                       <div className={`flex items-center justify-between pt-2 border-t dark:border-slate-800/60 ${
                         viewMode === 'grid' ? 'w-full' : 'mt-2'
                       }`} onClick={(e) => e.stopPropagation()}>

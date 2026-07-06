@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-// 1. Import Link and NavLink from react-router-dom
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { ShoppingCart, Menu, X, Sun, Moon, LogIn, User, LogOut, Mail, Lock } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -16,12 +15,10 @@ export default function Header() {
   
   const navigate = useNavigate();
 
-  // Form Field States
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  // Nav Links Configuration
   const navLinks = [
     { name: 'Home', path: '/' },
     { name: 'Products', path: '/products' },
@@ -29,7 +26,6 @@ export default function Header() {
     { name: 'Contact Us', path: '/contact' }
   ];
 
-  // Synchronize layout dark mode class toggle
   useEffect(() => {
     if (darkMode) {
       document.documentElement.classList.add('dark');
@@ -38,7 +34,6 @@ export default function Header() {
     }
   }, [darkMode]);
 
-  // Load user session from local storage on mount & handle dropdown click-away
   useEffect(() => {
     const session = localStorage.getItem('e_shop_session');
     if (session) {
@@ -54,7 +49,6 @@ export default function Header() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Form handling authentication pipelines
   const handleAuthSubmit = (e) => {
     e.preventDefault();
     if (!email || !password || (authTab === 'signup' && !name)) {
@@ -63,14 +57,12 @@ export default function Header() {
     }
 
     if (authTab === 'signup') {
-      // User Sign-up Flow
       const userData = { name, email, password };
       localStorage.setItem(`user_${email}`, JSON.stringify(userData));
       localStorage.setItem('e_shop_session', JSON.stringify({ name, email }));
       setCurrentUser({ name, email });
       toast.success(`Welcome to e-shop, ${name}!`);
     } else {
-      // User Login Flow
       const storedUser = localStorage.getItem(`user_${email}`);
       if (!storedUser) {
         toast.error('No account associated with this email address.');
@@ -86,17 +78,14 @@ export default function Header() {
       toast.success(`Welcome back, ${parsedUser.name}!`);
     }
 
-    // Reset Form & Close Modal
     setIsAuthModalOpen(false);
     setName('');
     setEmail('');
     setPassword('');
     
-    // Redirect to a user dashboard view profile path if desired
     navigate('/');
   };
 
-  // Logout utility
   const handleLogout = () => {
     localStorage.removeItem('e_shop_session');
     setCurrentUser(null);
@@ -106,7 +95,6 @@ export default function Header() {
     navigate('/');
   };
 
-  // Generate 2-character avatar initials fallback
   const getInitials = (userName) => {
     if (!userName) return 'U';
     return userName.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
@@ -115,11 +103,9 @@ export default function Header() {
   return (
     <nav className="w-full bg-white dark:bg-slate-900 border-b border-gray-100 dark:border-slate-800 shadow-sm transition-colors duration-300 font-sans top-0 sticky z-50">
       
-      {/* --- TOP ROW: BRANDING & UTILITIES --- */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20 gap-4">
           
-          {/* Brand Logo - Uses React Router Link */}
           <motion.div 
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.98 }}
@@ -130,10 +116,8 @@ export default function Header() {
             </Link>
           </motion.div>
 
-          {/* Right Desktop Utilities Panel */}
           <div className="hidden md:flex items-center space-x-5">
             
-            {/* Theme Toggle Button */}
             <motion.button
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
@@ -146,7 +130,6 @@ export default function Header() {
 
             <div className="h-8 w-px bg-gray-200 dark:bg-slate-700" />
 
-            {/* Dynamic Auth Button / Dropdown Account Profile Area */}
             {currentUser ? (
               <div className="relative" ref={dropdownRef}>
                 <motion.button
@@ -196,7 +179,6 @@ export default function Header() {
             )}
           </div>
 
-          {/* Mobile Display Navigation Controls */}
           <div className="flex items-center space-x-3 md:hidden">
             <button
               onClick={() => setDarkMode(!darkMode)}
@@ -215,11 +197,9 @@ export default function Header() {
         </div>
       </div>
 
-      {/* --- BOTTOM ROW: NAVBAR NAVIGATION BAR LINKS --- */}
       <div className="hidden md:block bg-gradient-to-r from-[#9B77E7] to-[#1600A0] text-white shadow-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-13 text-sm font-semibold">
-            {/* Main Links featuring NavLink with an active class accent indicator */}
             <div className="flex items-center space-x-1">
               {navLinks.map((link) => (
                 <NavLink 
@@ -236,7 +216,6 @@ export default function Header() {
               ))}
             </div>
 
-            {/* Shopping Cart Link Router Wrapper */}
             <div className="flex my-2 items-center">
               <motion.button 
                 whileHover={{ scale: 1.03 }}
@@ -258,7 +237,6 @@ export default function Header() {
         </div>
       </div>
 
-      {/* --- RESPONSIVE MOBILE EXPANDABLE MENU DRAWERS --- */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div 
@@ -285,7 +263,6 @@ export default function Header() {
               </div>
             )}
 
-            {/* Mobile Nav Links mapping */}
             <div className="flex flex-col space-y-1 font-semibold text-slate-700 dark:text-slate-300">
               {navLinks.map((link) => (
                 <NavLink 
@@ -318,12 +295,10 @@ export default function Header() {
         )}
       </AnimatePresence>
 
-      {/* --- POP-UP AUTHENTICATION TAB SYSTEM SCREEN MODAL --- */}
       <AnimatePresence>
         {isAuthModalOpen && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
             
-            {/* Overlay Backdrop cover */}
             <motion.div 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -332,14 +307,12 @@ export default function Header() {
               className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm"
             />
 
-            {/* Main Popover Window wrapper */}
             <motion.div 
               initial={{ scale: 0.95, y: 15, opacity: 0 }}
               animate={{ scale: 1, y: 0, opacity: 1 }}
               exit={{ scale: 0.95, y: 15, opacity: 0 }}
               className="bg-white dark:bg-slate-900 w-full max-w-md rounded-2xl border border-gray-100 dark:border-slate-800 shadow-2xl overflow-hidden relative z-10"
             >
-              {/* Tab Header Option bar switcher */}
               <div className="flex border-b border-gray-100 dark:border-slate-800 bg-gray-50/50 dark:bg-slate-800/40">
                 <button 
                   type="button"
@@ -360,7 +333,6 @@ export default function Header() {
                 </button>
               </div>
 
-              {/* Authentication Submission Forms */}
               <form onSubmit={handleAuthSubmit} className="p-6 space-y-4">
                 {authTab === 'signup' && (
                   <div className="space-y-1">

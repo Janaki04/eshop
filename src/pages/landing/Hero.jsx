@@ -6,7 +6,6 @@ import PromoGrid from './PromoGrid';
 import TechTalk from './TechTalk';
 import Faq from './Faq';
 
-// Mock slides dataset matching the vibe of Screenshot 2026-07-02 at 11.01.43 AM.jpg
 const SLIDES = [
   {
     id: 1,
@@ -35,9 +34,8 @@ const AUTO_PLAY_SECONDS = 3;
 
 export default function HeroCarousel() {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [direction, setDirection] = useState(0); // -1 for left, 1 for right
+  const [direction, setDirection] = useState(0); 
 
-  // Handle automatic cycling based on user preference seconds configuration
   useEffect(() => {
     const timer = setInterval(() => {
       handleNext();
@@ -56,7 +54,6 @@ export default function HeroCarousel() {
     setCurrentIndex((prevIndex) => (prevIndex === SLIDES.length - 1 ? 0 : prevIndex + 1));
   };
 
-  // Animation variants for fluid slide transitions
   const slideVariants = {
     enter: (dir) => ({
       x: dir > 0 ? 300 : -300,
@@ -76,7 +73,6 @@ export default function HeroCarousel() {
 
   return (
     <>
-      {/* 1. Added dark:bg-slate-950 to flip background dynamically */}
       <div className="relative w-full bg-[#F8F9FA] dark:bg-slate-950 overflow-hidden min-h-[500px] md:h-[600px] flex items-center transition-colors duration-300">
         
         <div className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 w-full py-16 md:py-0 relative">
@@ -91,13 +87,11 @@ export default function HeroCarousel() {
               className="grid grid-cols-1 md:grid-cols-2 items-center gap-12 md:gap-6"
             >
               
-              {/* LEFT COLUMN: TEXT CONTENT & GRADIENT BUTTON */}
               <div className="space-y-6 max-w-xl text-center md:text-left z-10 order-2 md:order-1">
                 {/* 2. Added dark:text-slate-100 to text heading */}
                 <h1 className="text-4xl sm:text-5xl font-black text-slate-800 dark:text-slate-100 tracking-tight leading-tight">
                   {SLIDES[currentIndex].title}
                 </h1>
-                {/* 3. Added dark:text-slate-400 to subtitle body text */}
                 <p className="text-gray-500 dark:text-slate-400 text-base sm:text-lg leading-relaxed font-medium">
                   {SLIDES[currentIndex].description}
                 </p>
@@ -112,7 +106,6 @@ export default function HeroCarousel() {
                 </div>
               </div>
 
-              {/* RIGHT COLUMN: PRODUCT SHOWCASE IMAGERY */}
               <div className="flex justify-center items-center order-1 md:order-2">
                 <div className="relative w-full max-w-[320px] sm:max-w-[400px] md:max-w-full aspect-[4/3] flex justify-center items-center">
                   {/* 4. Added mix-blend-multiply & dark:mix-blend-normal to support bright transparent product backgrounds */}
@@ -131,7 +124,6 @@ export default function HeroCarousel() {
           </AnimatePresence>
         </div>
 
-        {/* BOTTOM DOT INDICATORS WITH TICKING TIMER VISUAL */}
         <div className="absolute bottom-6 left-0 right-0 flex justify-center space-x-3 z-30">
           {SLIDES.map((slide, index) => (
             <button
