@@ -2,8 +2,15 @@ import React, { useState, useMemo } from 'react';
 import { X, Maximize2, Star, Truck, ShieldCheck, RefreshCw, Minus, Plus, Heart } from 'lucide-react';
 import { motion } from 'framer-motion';
 
-export default function ProductDetails({ product, onClose, onAddToCart, onAddToWishlist, relatedProducts, onSelectProduct }) {
-  const [selectedVariant, setSelectedVariant] = useState('Space Gray');
+export default function ProductDetails({ 
+  product, 
+  onClose, 
+  onAddToCart, 
+  onAddToWishlist, 
+  relatedProducts = [], 
+  onSelectProduct 
+}) {
+  const [selectedVariant, setSelectedVariant] = useState('Standard Release');
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState('Specification');
 
@@ -11,7 +18,7 @@ export default function ProductDetails({ product, onClose, onAddToCart, onAddToW
     if (!product) return { left: [], right: [] };
     return {
       left: [
-        { label: 'Brand', value: `${product.category} Premium Tech` },
+        { label: 'Brand', value: `${product.category || 'Tech'} Premium` },
         { label: 'Display / Profile', value: `High grade custom engineered framework optimizing premium ${product.name}.` },
         { label: 'Performance Tier', value: 'High performance structural materials ensuring optimal efficiency metrics.' },
         { label: 'Operational Metrics', value: 'Optimized internal cooling arrays with balanced dynamic latency values.' }
@@ -24,6 +31,8 @@ export default function ProductDetails({ product, onClose, onAddToCart, onAddToW
       ]
     };
   }, [product]);
+
+  if (!product) return null;
 
   return (
     <motion.div 
@@ -47,7 +56,7 @@ export default function ProductDetails({ product, onClose, onAddToCart, onAddToW
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
         <div>
           <div className="relative border border-gray-100 dark:border-slate-800 bg-gray-50 dark:bg-slate-800/30 rounded-xl p-8 flex items-center justify-center h-80 text-9xl select-none">
-            {product.image}
+            {product.image || '📦'}
             <button className="absolute top-4 right-4 p-2 bg-white dark:bg-slate-800 rounded-full shadow text-gray-400 hover:text-slate-700 dark:hover:text-white transition-colors">
               <Maximize2 size={16} />
             </button>
@@ -56,7 +65,7 @@ export default function ProductDetails({ product, onClose, onAddToCart, onAddToW
           <div className="flex gap-3 mt-4">
             {[1, 2, 3].map((thumb) => (
               <div key={thumb} className={`w-16 h-16 border rounded-lg flex items-center justify-center bg-gray-50 dark:bg-slate-800/40 text-2xl cursor-pointer transition-all ${thumb === 1 ? 'border-[#9B77E7] ring-1 ring-[#9B77E7]' : 'border-gray-100 dark:border-slate-800'}`}>
-                {product.image}
+                {product.image || '📦'}
               </div>
             ))}
           </div>
@@ -72,19 +81,19 @@ export default function ProductDetails({ product, onClose, onAddToCart, onAddToW
           <div>
             <div className="flex items-center gap-1 text-amber-400 text-xs mb-2">
               {[...Array(5)].map((_, i) => <Star key={i} size={14} className="fill-current" />)}
-              <span className="text-gray-400 dark:text-slate-500 font-bold ml-1">({product.reviews} customer ratings)</span>
+              <span className="text-gray-400 dark:text-slate-500 font-bold ml-1">({product.reviews || 0} customer ratings)</span>
             </div>
             <h2 className="text-xl md:text-2xl font-black text-slate-800 dark:text-white leading-tight mb-4">{product.name}</h2>
             
             <div className="flex items-baseline gap-3 mb-6">
-              <span className="text-3xl font-black text-[#9B77E7] dark:text-red-400">${product.price.toLocaleString()}</span>
+              <span className="text-3xl font-black text-[#9B77E7] dark:text-red-400">${product.price.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
               <span className="text-sm font-semibold text-gray-400 line-through">
-                ${product.oldPrice ? product.oldPrice.toLocaleString() : (product.price * 1.5).toFixed(2)}
+                ${product.oldPrice ? product.oldPrice.toLocaleString('en-US', { minimumFractionDigits: 2 }) : (product.price * 1.5).toLocaleString('en-US', { minimumFractionDigits: 2 })}
               </span>
             </div>
 
             <div className="space-y-2.5 border-t border-gray-100 dark:border-slate-800/80 pt-4 text-xs mb-6">
-              <div className="grid grid-cols-3"><span className="text-gray-400 font-bold">Category Tier</span><span className="col-span-2 text-slate-700 dark:text-slate-300">{product.category} Division</span></div>
+              <div className="grid grid-cols-3"><span className="text-gray-400 font-bold">Category Tier</span><span className="col-span-2 text-slate-700 dark:text-slate-300">{product.category || 'General'} Division</span></div>
               <div className="grid grid-cols-3"><span className="text-gray-400 font-bold">Availability Status</span><span className="col-span-2 text-green-500 font-bold">In Stock & Ready</span></div>
               <div className="grid grid-cols-3"><span className="text-gray-400 font-bold">Global Delivery</span><span className="col-span-2 text-slate-700 dark:text-slate-300">Worldwide Shipping Protocol</span></div>
             </div>
@@ -108,11 +117,17 @@ export default function ProductDetails({ product, onClose, onAddToCart, onAddToW
               <button onClick={() => setQuantity(q => q + 1)} className="p-1.5 hover:bg-gray-200 dark:hover:bg-slate-700 rounded text-gray-500"><Plus size={14} /></button>
             </div>
 
-            <button onClick={() => onAddToCart(product.name)} className="flex-1 bg-gradient-to-r from-[#9B77E7] to-[#1600A0] dark:bg-red-500 text-white font-bold py-2.5 px-6 rounded-lg shadow-md hover:opacity-95 transition-opacity text-sm">
+            <button 
+              onClick={() => onAddToCart({ ...product, variant: selectedVariant }, quantity)} 
+              className="flex-1 bg-gradient-to-r from-[#9B77E7] to-[#1600A0] dark:bg-red-500 text-white font-bold py-2.5 px-6 rounded-lg shadow-md hover:opacity-95 transition-opacity text-sm"
+            >
               Buy Now
             </button>
             
-            <button onClick={() => onAddToWishlist(product.name)} className="p-2.5 border border-gray-200 dark:border-slate-700 rounded-lg text-gray-400 hover:text-red-500 transition-colors">
+            <button 
+              onClick={() => onAddToWishlist && onAddToWishlist(product)} 
+              className="p-2.5 border border-gray-200 dark:border-slate-700 rounded-lg text-gray-400 hover:text-red-500 transition-colors"
+            >
               <Heart size={18} />
             </button>
           </div>
@@ -145,25 +160,27 @@ export default function ProductDetails({ product, onClose, onAddToCart, onAddToW
         {activeTab !== 'Specification' && <div className="col-span-2 py-6 text-center text-gray-400 italic">Extended specifications log sheets are under asset compilation.</div>}
       </div>
 
-      <div className="mt-12 pt-8 border-t border-gray-100 dark:border-slate-800">
-        <div className="flex justify-between items-center mb-6">
-          <h3 className="text-md font-black text-slate-800 dark:text-white">Related Products Strip</h3>
-          <button onClick={onClose} className="text-xs font-bold text-[#9B77E7] hover:underline">View All →</button>
+      {relatedProducts.length > 0 && (
+        <div className="mt-12 pt-8 border-t border-gray-100 dark:border-slate-800">
+          <div className="flex justify-between items-center mb-6">
+            <h3 className="text-md font-black text-slate-800 dark:text-white">Related Products Strip</h3>
+            <button className="text-xs font-bold text-[#9B77E7] hover:underline">View All →</button>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 gap-4">
+            {relatedProducts.slice(0, 5).map((p) => (
+              <div 
+                key={p.id} 
+                onClick={() => onSelectProduct && onSelectProduct(p)} 
+                className="bg-gray-50 dark:bg-slate-800/30 border border-gray-100 dark:border-slate-800 rounded-xl p-3 text-center cursor-pointer hover:border-slate-400 dark:hover:border-slate-600 transition-all"
+              >
+                <div className="text-3xl mb-2">{p.image || '📦'}</div>
+                <h4 className="text-[11px] font-bold text-slate-700 dark:text-slate-300 truncate">{p.name}</h4>
+                <p className="text-xs font-black text-[#9B77E7] mt-1">${p.price?.toLocaleString()}</p>
+              </div>
+            ))}
+          </div>
         </div>
-        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 gap-4">
-          {relatedProducts.slice(0, 5).map((p) => (
-            <div 
-              key={p.id} 
-              onClick={() => onSelectProduct(p)} 
-              className="bg-gray-50 dark:bg-slate-800/30 border border-gray-100 dark:border-slate-800 rounded-xl p-3 text-center cursor-pointer hover:border-slate-400 dark:hover:border-slate-600 transition-all"
-            >
-              <div className="text-3xl mb-2">{p.image}</div>
-              <h4 className="text-[11px] font-bold text-slate-700 dark:text-slate-300 truncate">{p.name}</h4>
-              <p className="text-xs font-black text-[#9B77E7] mt-1">${p.price}</p>
-            </div>
-          ))}
-        </div>
-      </div>
+      )}
     </motion.div>
   );
 }

@@ -5,6 +5,7 @@ import RecommendedProducts from './RecommendedProducts';
 import PromoGrid from './PromoGrid';
 import TechTalk from './TechTalk';
 import Faq from './Faq';
+import { useGlobalLoading } from '../../components/LoadingContext';
 
 const SLIDES = [
   {
@@ -33,13 +34,26 @@ const SLIDES = [
 const AUTO_PLAY_SECONDS = 3;
 
 export default function HeroCarousel() {
+  const { startLoading, stopLoading } = useGlobalLoading();
+
+  useEffect(() => {
+    async function loadProducts() {
+      startLoading(); 
+      try {
+        await new Promise(resolve => setTimeout(resolve, 1500)); // Simulating API
+      } finally {
+        stopLoading(); 
+      }
+    }
+    loadProducts();
+  }, []);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(0); 
 
   useEffect(() => {
     const timer = setInterval(() => {
       handleNext();
-    }, AUTO_PLAY_SECONDS * 1000);
+    }, AUTO_PLAY_SECONDS * 500);
 
     return () => clearInterval(timer);
   }, [currentIndex]);
@@ -88,7 +102,6 @@ export default function HeroCarousel() {
             >
               
               <div className="space-y-6 max-w-xl text-center md:text-left z-10 order-2 md:order-1">
-                {/* 2. Added dark:text-slate-100 to text heading */}
                 <h1 className="text-4xl sm:text-5xl font-black text-slate-800 dark:text-slate-100 tracking-tight leading-tight">
                   {SLIDES[currentIndex].title}
                 </h1>
@@ -108,7 +121,6 @@ export default function HeroCarousel() {
 
               <div className="flex justify-center items-center order-1 md:order-2">
                 <div className="relative w-full max-w-[320px] sm:max-w-[400px] md:max-w-full aspect-[4/3] flex justify-center items-center">
-                  {/* 4. Added mix-blend-multiply & dark:mix-blend-normal to support bright transparent product backgrounds */}
                   <motion.img
                     initial={{ scale: 0.92, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
@@ -135,7 +147,6 @@ export default function HeroCarousel() {
               className="group relative focus:outline-none"
               aria-label={`Go to slide ${index + 1}`}
             >
-              {/* 5. Added dark:bg-slate-700 and dark:hover:bg-slate-600 to unselected dot indicators */}
               <div className={`h-2.5 rounded-full transition-all duration-300 ${
                 index === currentIndex ? 'w-8 bg-[#9B77E7]' : 'w-2.5 bg-gray-300 dark:bg-slate-700 hover:bg-gray-400 dark:hover:bg-slate-600'
               }`} />

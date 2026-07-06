@@ -1,13 +1,28 @@
 import React, { useState } from 'react';
 import { MapPin, Phone, Mail, Clock, Plus, Minus } from 'lucide-react';
+import { toast } from 'react-toastify';
+import { useGlobalLoading } from '../../components/LoadingContext';
 
 export default function ContactPage() {
+  const { startLoading, stopLoading } = useGlobalLoading();
+
+  useEffect(() => {
+    async function loadProducts() {
+      startLoading(); 
+      try {
+        await new Promise(resolve => setTimeout(resolve, 1500)); 
+      } finally {
+        stopLoading(); 
+      }
+    }
+    loadProducts();
+  }, []);
   const [formData, setFormData] = useState({ name: 'Amelia Robert Watson', phone: '+123 456 7890', email: 'amelia.watson@eshop.com', message: '' });
   const [zoom, setZoom] = useState(13);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert(`Thank you ${formData.name}, your message has been sent successfully!`);
+    toast.success(`Thank you ${formData.name}, your message has been sent successfully!`);
   };
 
   return (
@@ -15,9 +30,14 @@ export default function ContactPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         
         <div>
-       <h1 className="text-start text-3xl md:text-4xl font-black tracking-tight bg-gradient-to-r from-[#9B77E7] via-[#6366F1] to-[#1600A0] bg-clip-text text-transparent">
-  Contact Us
-</h1>
+     
+ <h1 
+              onClick={() => setActiveQuickView(null)}
+              className="text-start text-2xl md:text-3xl font-black bg-gradient-to-r from-[#9B77E7] to-[#1600A0] dark:from-[#b496f0] dark:to-[#6366F1] cursor-pointer select-none"
+              style={{ WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}
+            >
+              Contact Us
+            </h1>
         </div>
 
         <div className="w-full h-[320px] md:h-[420px] rounded-2xl overflow-hidden relative border border-gray-100 dark:border-slate-800 shadow-sm group">
@@ -72,7 +92,7 @@ export default function ContactPage() {
             
             <form onSubmit={handleSubmit} className="space-y-5">
               <div>
-                <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-2">
+                <label className="flex block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-2">
                   Name <span className="text-red-500 font-black">*</span>
                 </label>
                 <input 
@@ -87,7 +107,7 @@ export default function ContactPage() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-2">Phone Number</label>
+                  <label className="flex block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-2">Phone Number</label>
                   <input 
                     type="tel"
                     value={formData.phone}
@@ -97,7 +117,7 @@ export default function ContactPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-2">
+                  <label className="flex block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-2">
                     Email Address <span className="text-red-500 font-black">*</span>
                   </label>
                   <input 
@@ -112,7 +132,7 @@ export default function ContactPage() {
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-2">
+                <label className="flex block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-2">
                   Message <span className="text-red-500 font-black">*</span>
                 </label>
                 <textarea 

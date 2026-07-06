@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { ChevronLeft, ChevronRight, Heart, Share2, Star } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { ChevronLeft, ChevronRight, Heart, Share2, Star, Minus, Plus, ShoppingBag } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const PRODUCTS = [
   {
@@ -65,7 +65,13 @@ const PRODUCTS = [
   }
 ];
 
-export default function RecommendedProducts() {
+export default function RecommendedProducts({ 
+  cart = [], 
+  onAddToCart, 
+  onUpdateQuantity, 
+  onRemoveFromCart, 
+  onAddToWishlist 
+}) {
   const [hoveredCardId, setHoveredCardId] = useState(null);
 
   return (
@@ -93,6 +99,10 @@ export default function RecommendedProducts() {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5">
             {PRODUCTS.map((product) => {
               const isHovered = hoveredCardId === product.id;
+              
+              // Find item within our global cart instance
+              const cartItem = cart.find(item => item.id === product.id);
+              const isInCart = !!cartItem;
 
               return (
                 <div
@@ -108,8 +118,11 @@ export default function RecommendedProducts() {
                       </span>
                     ) : <span />}
 
-                    <div className={`flex flex-col space-y-1.5 transition-opacity duration-200 ${isHovered ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
-                      <button className="p-1.5 rounded-full bg-white dark:bg-slate-800 shadow-md text-gray-400 hover:text-red-500 transition-colors border border-gray-50 dark:border-slate-700">
+                    <div className={`flex flex-col space-y-1.5 transition-opacity duration-200 ${isHovered || isInCart ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+                      <button 
+                        onClick={() => onAddToWishlist && onAddToWishlist(product)}
+                        className="p-1.5 rounded-full bg-white dark:bg-slate-800 shadow-md text-gray-400 hover:text-red-500 transition-colors border border-gray-50 dark:border-slate-700"
+                      >
                         <Heart className="h-3.5 w-3.5" />
                       </button>
                       <button className="p-1.5 rounded-full bg-white dark:bg-slate-800 shadow-md text-gray-400 hover:text-[#9B77E7] transition-colors border border-gray-50 dark:border-slate-700">
@@ -126,22 +139,63 @@ export default function RecommendedProducts() {
                     />
                   </div>
 
-                  <div className="relative overflow-hidden h-10 w-full mb-4">
-                    {isHovered ? (
-                      <motion.button
-                        initial={{ y: 20, opacity: 0 }}
-                        animate={{ y: 0, opacity: 1 }}
-                        className="w-full h-full text-white font-extrabold text-xs tracking-wider uppercase rounded-xl bg-gradient-to-r from-[#9B77E7] to-[#1600A0] shadow-md hover:opacity-95"
-                      >
-                        Add To Cart
-                      </motion.button>
-                    ) : (
-                      <div className="h-full flex flex-col justify-center">
-                        <span className="text-[10px] font-bold text-gray-400 tracking-wider uppercase">
-                          {product.category} • <span className="text-[#9B77E7] dark:text-purple-400">{product.brand}</span>
-                        </span>
-                      </div>
-                    )}
+                  <div className="relative overflow-hidden h-10 w-full mb-4 flex items-center justify-center">
+                    <AnimatePresence mode="wait">
+                      {isInCart ? (
+                        <motion.div
+                          key="quantity-control"
+                          initial={{ scale: 0.92, opacity: 0 }}
+                          animate={{ scale: 1, opacity: 1 }}
+                          exit={{ scale: 0.92, opacity: 0 }}
+                          className="w-full h-full flex items-center justify-between rounded-xl border border-purple-200 dark:border-purple-900/50 bg-purple-50/60 dark:bg-purple-950/20 px-2"
+                        >
+                          <button
+                            onClick={() => {
+                              if (cartItem.quantity > 1) {
+                                onUpdateQuantity?.(product.id, cartItem.quantity - 1);
+                              } else {
+                                onRemoveFromCart?.(product.id);
+                              }
+                            }}
+                            className="p-1.5 rounded-lg text-[#1600A0] dark:text-purple-400 hover:bg-purple-100 dark:hover:bg-purple-900/40 transition-colors"
+                          >
+                            <Minus className="h-3.5 w-3.5 stroke-[2.5]" />
+                          </button>
+                          
+                          <span className="text-xs font-black text-slate-800 dark:text-slate-200 tracking-wide">
+                            {cartItem.quantity} in Cart
+                          </span>
+
+                          <button
+                            onClick={() => onUpdateQuantity?.(product.id, cartItem.quantity + 1)}
+                            className="p-1.5 rounded-lg text-[#1600A0] dark:text-purple-400 hover:bg-purple-100 dark:hover:bg-purple-900/40 transition-colors"
+                          >
+                            <Plus className="h-3.5 w-3.5 stroke-[2.5]" />
+                          </button>
+                        </motion.div>
+                      ) : isHovered ? (
+                        <motion.button
+                          key="add-to-cart-btn"
+                          initial={{ y: 15, opacity: 0 }}
+                          animate={{ y: 0, opacity: 1 }}
+                          exit={{ y: -15, opacity: 0 }}
+                          onClick={() => onAddToCart?.(product, 1)}
+                          className="w-full h-full text-white font-extrabold text-xs tracking-wider uppercase rounded-xl bg-gradient-to-r from-[#9B77E7] to-[#1600A0] shadow-md hover:opacity-95 flex items-center justify-center gap-1.5"
+                        >
+                          <ShoppingBag className="h-3.5 w-3.5" />
+                          Add To Cart
+                        </motion.button>
+                      ) : (
+                        <motion.div 
+                          key="product-meta"
+                          className="h-full w-full flex flex-col justify-center"
+                        >
+                          <span className="text-[10px] font-bold text-gray-400 tracking-wider uppercase">
+                            {product.category} • <span className="text-[#9B77E7] dark:text-purple-400">{product.brand}</span>
+                          </span>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                   </div>
 
                   <div className="space-y-2">

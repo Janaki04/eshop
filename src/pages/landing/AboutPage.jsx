@@ -1,7 +1,21 @@
 import React from 'react';
 import { Target, Users, Award, ShieldCheck, Heart, ArrowRight } from 'lucide-react';
+import { useGlobalLoading } from '../../components/LoadingContext';
 
 export default function AboutPage() {
+  const { startLoading, stopLoading } = useGlobalLoading();
+
+  useEffect(() => {
+    async function loadProducts() {
+      startLoading(); 
+      try {
+        await new Promise(resolve => setTimeout(resolve, 1500)); 
+      } finally {
+        stopLoading(); 
+      }
+    }
+    loadProducts();
+  }, []);
   const coreValues = [
     {
       icon: <Target className="text-[#9B77E7]" size={20} />,
@@ -40,13 +54,13 @@ export default function AboutPage() {
           <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#808080_1px,transparent_1px),linear-gradient(to_bottom,#808080_1px,transparent_1px)] bg-[size:24px_24px]"></div>
           
           <div className="max-w-2xl relative z-10 space-y-4">
-            <span className="text-xs font-black uppercase text-[#9B77E7] dark:text-[#b496f0] tracking-widest bg-[#9B77E7]/10 px-3 py-1 rounded-md">
+            <span className="text-start flex w-fit text-xs font-black uppercase text-[#9B77E7] dark:text-[#b496f0] tracking-widest bg-[#9B77E7]/10 px-3 py-1 rounded-md">
               Who We Are
             </span>
-            <h1 className="text-3xl md:text-5xl font-black text-white tracking-tight leading-tight">
+            <h1 className="text-start text-3xl md:text-5xl font-black text-white tracking-tight leading-tight">
               We're Redefining the Future of Global E-Commerce.
             </h1>
-            <p className="text-sm text-slate-300 leading-relaxed max-w-lg">
+            <p className="text-start text-sm text-slate-300 leading-relaxed max-w-lg">
               E-Shop Headquarter manages a highly modern, high-speed retail network delivering top-tier tech lifestyle accessories directly to your desktop.
             </p>
           </div>
@@ -61,15 +75,15 @@ export default function AboutPage() {
           
           <div className="lg:col-span-2 space-y-6">
             <div>
-              <h2 className="text-3xl font-black text-slate-900 dark:text-white tracking-tight mb-2">Our Story</h2>
-              <p className="text-gray-500 dark:text-slate-400 text-sm">Driven by passion, engineered for functional reliability.</p>
+              <h2 className="text-start text-3xl font-black text-slate-900 dark:text-white tracking-tight mb-2">Our Story</h2>
+              <p className="text-start text-gray-500 dark:text-slate-400 text-sm">Driven by passion, engineered for functional reliability.</p>
             </div>
             
             <div className="space-y-4 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-              <p>
+              <p className='text-start'>
                 What started as a localized tech distribution framework in New York has quickly expanded into a worldwide operations cluster. We recognized early on that tech consumers don't just require items; they require dynamic data accuracy, authentic product validations, and responsive guarantees.
               </p>
-              <p>
+              <p className='text-start'>
                 Whether you are accessing our catalog pipeline via grid layouts, inspecting premium acoustic equipment parameters, or interacting with our local branch units, we apply strict performance verification rules to optimize your user experience metrics.
               </p>
             </div>
@@ -80,8 +94,8 @@ export default function AboutPage() {
                   <div className="p-2 bg-gray-50 dark:bg-slate-800 rounded-lg w-fit border border-gray-100 dark:border-slate-700">
                     {val.icon}
                   </div>
-                  <h4 className="font-extrabold text-slate-900 dark:text-white text-sm tracking-tight">{val.title}</h4>
-                  <p className="text-xs text-gray-500 dark:text-slate-400 leading-relaxed">{val.desc}</p>
+                  <h4 className="text-start font-extrabold text-slate-900 dark:text-white text-sm tracking-tight">{val.title}</h4>
+                  <p className="text-start text-xs text-gray-500 dark:text-slate-400 leading-relaxed">{val.desc}</p>
                 </div>
               ))}
             </div>
@@ -89,8 +103,8 @@ export default function AboutPage() {
 
           <div className="bg-gray-50/70 dark:bg-slate-900/40 border border-gray-100/80 dark:border-slate-800/80 p-6 md:p-8 rounded-2xl h-fit space-y-6">
             <div>
-              <h3 className="text-lg font-black text-slate-900 dark:text-white tracking-tight mb-2">Corporate Footprint</h3>
-              <p className="text-xs text-gray-500 dark:text-slate-400 leading-relaxed">
+              <h3 className="text-start text-lg font-black text-slate-900 dark:text-white tracking-tight mb-2">Corporate Footprint</h3>
+              <p className="text-start text-xs text-gray-500 dark:text-slate-400 leading-relaxed">
                 Our central operational node handles fulfillment validation sequences globally.
               </p>
             </div>

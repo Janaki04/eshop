@@ -38,7 +38,7 @@ export default function PromoGrid() {
   useEffect(() => {
     const autoPlayTimer = setInterval(() => {
       handleNext();
-    }, CAROUSEL_INTERVAL_SECONDS * 1000);
+    }, CAROUSEL_INTERVAL_SECONDS * 500);
 
     return () => clearInterval(autoPlayTimer);
   }, [currentIndex]);

@@ -1,8 +1,10 @@
 import React, { useState, useMemo } from 'react';
-import { LayoutGrid, List, ChevronDown, Star, Heart, ShoppingCart, Eye } from 'lucide-react';
+import { LayoutGrid, List, ChevronDown, Star, Heart, ShoppingCart, Eye, Trash2, Plus, Minus } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 import ProductDetails from './ProductDetails';
+import { useGlobalLoading } from '../../components/LoadingContext';
 
 const MOCK_PRODUCTS = [
   { id: 1, name: 'QuietComfort 45 Wireless Headphone', category: 'Audio', price: 329.99, rating: 4.8, reviews: 120, image: '🎧', discount: 0 },
@@ -17,7 +19,22 @@ const MOCK_PRODUCTS = [
   { id: 10, name: 'Hero Watch SU Series 8 Lilac Rubber Band 40', category: 'Watch', price: 899.00, rating: 4.1, reviews: 20, image: '⌚', discount: 0 },
 ];
 
-export default function ProductsPage() {
+export default function ProductsPage({ cart = [], onAddToCart, onRemoveFromCart }) {
+  const { startLoading, stopLoading } = useGlobalLoading();
+
+  useEffect(() => {
+    async function loadProducts() {
+      startLoading(); // Starts full screen loader overlay
+      try {
+        // Fetch your product data here
+        await new Promise(resolve => setTimeout(resolve, 1500)); // Simulating API
+      } finally {
+        stopLoading(); // Closes full screen loader overlay
+      }
+    }
+    loadProducts();
+  }, []);
+  const navigate = useNavigate();
   const [viewMode, setViewMode] = useState('grid');
   const [selectedCategory, setSelectedCategory] = useState('All Categories');
   const [selectedPriceRange, setSelectedPriceRange] = useState('All Prices');
@@ -45,7 +62,6 @@ export default function ProductsPage() {
     });
   }, [selectedCategory, selectedPriceRange, selectedRating]);
 
-  const handleAddToCart = (productName) => toast.success(`Added "${productName}" to cart!`);
   const handleAddToWishlist = (productName) => toast.info(`Saved "${productName}" to wishlist.`);
   
   const handleNavigateToProduct = (product) => {
@@ -53,25 +69,28 @@ export default function ProductsPage() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const totalCartItems = cart.reduce((total, item) => total + item.quantity, 0);
+
   return (
     <div className="bg-gray-50 dark:bg-slate-950 min-h-screen py-6 transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
+        <div className="flex justify-between items-center mb-6 border-b dark:border-slate-900 pb-4">
+          <div className="flex items-center gap-4">
+            <h1 
+              onClick={() => setActiveQuickView(null)}
+              className="text-start text-2xl md:text-3xl font-black bg-gradient-to-r from-[#9B77E7] to-[#1600A0] dark:from-[#b496f0] dark:to-[#6366F1] cursor-pointer select-none"
+              style={{ WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}
+            >
+              Products
+            </h1>
+          </div>
+        </div>
+
         <AnimatePresence mode="wait">
           {!activeQuickView ? (
-            <motion.div key="list" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-              
-              <h1 
-                className="text-start text-2xl md:text-3xl font-black mb-6 bg-gradient-to-r from-[#9B77E7] to-[#1600A0] dark:from-[#b496f0] dark:to-[#6366F1]"
-                style={{ 
-                  WebkitBackgroundClip: 'text', 
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text' 
-                }}
-              >
-                Products
-              </h1>
-
+            /* --- SHOP PRODUCTS VIEW --- */
+            <motion.div key="shop-grid" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}>
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white dark:bg-slate-900 p-4 rounded-xl border border-gray-100 dark:border-slate-800 shadow-sm mb-8 transition-colors duration-300">
                 <div className="flex flex-wrap items-center gap-3">
                   <div className="relative min-w-[145px]">
@@ -105,10 +124,7 @@ export default function ProductsPage() {
                 </div>
               </div>
 
-              <div className={viewMode === 'grid' 
-                ? "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5" 
-                : "flex flex-col gap-4"
-              }>
+              <div className={viewMode === 'grid' ? "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5" : "flex flex-col gap-4"}>
                 {filteredProducts.map((product) => (
                   <motion.div 
                     key={product.id} 
@@ -148,28 +164,20 @@ export default function ProductsPage() {
                         </h3>
                         <div className="flex items-center gap-1 mt-2 mb-3 text-amber-400">
                           {[...Array(5)].map((_, i) => (
-                            <Star 
-                              key={i} 
-                              size={11} 
-                              className={i < Math.floor(product.rating) ? "fill-current" : "text-gray-300 dark:text-slate-700"} 
-                            />
+                            <Star key={i} size={11} className={i < Math.floor(product.rating) ? "fill-current" : "text-gray-300 dark:text-slate-700"} />
                           ))}
                           <span className="text-[10px] text-gray-400 font-bold ml-1">({product.reviews} reviews) • {product.rating}★</span>
                         </div>
                       </div>
 
-                      <div className={`flex items-center justify-between pt-2 border-t dark:border-slate-800/60 ${
-                        viewMode === 'grid' ? 'w-full' : 'mt-2'
-                      }`} onClick={(e) => e.stopPropagation()}>
+                      <div className={`flex items-center justify-between pt-2 border-t dark:border-slate-800/60 ${viewMode === 'grid' ? 'w-full' : 'mt-2'}`} onClick={(e) => e.stopPropagation()}>
                         <div className="flex items-baseline gap-2">
                           <span className="text-sm font-black dark:text-slate-100">${product.price}</span>
-                          {product.oldPrice && (
-                            <span className="text-xs text-gray-400 line-through">${product.oldPrice}</span>
-                          )}
+                          {product.oldPrice && <span className="text-xs text-gray-400 line-through">${product.oldPrice}</span>}
                         </div>
                         <div className="flex gap-1.5">
                           <button onClick={() => handleAddToWishlist(product.name)} className="p-1.5 border dark:border-slate-700 rounded-lg text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30"><Heart size={12} className="fill-current" /></button>
-                          <button onClick={() => handleAddToCart(product.name)} className="p-1.5 bg-gray-100 dark:bg-slate-800 rounded-lg text-slate-700 dark:text-slate-200 hover:bg-[#9B77E7] hover:text-white transition-colors"><ShoppingCart size={13} /></button>
+                          <button onClick={() => onAddToCart(product, 1)} className="p-1.5 bg-gray-100 dark:bg-slate-800 rounded-lg text-slate-700 dark:text-slate-200 hover:bg-[#9B77E7] hover:text-white transition-colors"><ShoppingCart size={13} /></button>
                         </div>
                       </div>
                     </div>
@@ -181,8 +189,10 @@ export default function ProductsPage() {
             <ProductDetails 
               key="details"
               product={activeQuickView}
+              cart={cart}
               onClose={() => setActiveQuickView(null)}
-              onAddToCart={handleAddToCart}
+              onAddToCart={onAddToCart}
+              onRemoveFromCart={onRemoveFromCart}
               onAddToWishlist={handleAddToWishlist}
               relatedProducts={MOCK_PRODUCTS}
               onSelectProduct={handleNavigateToProduct}

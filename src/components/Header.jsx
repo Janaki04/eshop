@@ -4,7 +4,7 @@ import { ShoppingCart, Menu, X, Sun, Moon, LogIn, User, LogOut, Mail, Lock } fro
 import { motion, AnimatePresence } from 'framer-motion';
 import { toast } from 'react-toastify';
 
-export default function Header() {
+export default function Header({ totalCartItems = 0, cartTotal = 0 }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
@@ -225,11 +225,15 @@ export default function Header() {
               >
                 <div className="relative p-1">
                   <ShoppingCart className="h-5 w-5 text-white" />
-                  <span className="absolute -top-0.5 -right-0.5 h-2 w-2 rounded-full bg-amber-400 animate-pulse" />
+                  {totalCartItems > 0 && (
+                    <span className="absolute -top-1.5 -right-1.5 h-5 w-5 rounded-full bg-amber-400 flex items-center justify-center text-[10px] font-black text-slate-900 border border-purple-900">
+                      {totalCartItems}
+                    </span>
+                  )}
                 </div>
                 <div className="ml-3 text-xs tracking-wide">
                   <p className="text-purple-200 text-[10px] uppercase font-bold tracking-wider">Cart</p>
-                  <p className="text-white font-extrabold text-sm">$ 150,00</p>
+                  <p className="text-white font-extrabold text-sm">${cartTotal.toFixed(2)}</p>
                 </div>
               </motion.button>
             </div>
@@ -250,7 +254,7 @@ export default function Header() {
               className="bg-gray-50 dark:bg-slate-800/60 p-3 rounded-xl text-sm font-semibold text-slate-800 dark:text-slate-200 flex items-center justify-center space-x-2 cursor-pointer"
             >
               <ShoppingCart className="h-5 w-5 text-[#9B77E7]" />
-              <span>Cart Total: <b className="text-[#1600A0] dark:text-purple-400">$ 150,00</b></span>
+              <span>Cart ({totalCartItems}): <b className="text-[#1600A0] dark:text-purple-400">${cartTotal.toFixed(2)}</b></span>
             </div>
 
             {currentUser && (
