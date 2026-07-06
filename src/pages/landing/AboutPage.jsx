@@ -1,21 +1,8 @@
 import React from 'react';
 import { Target, Users, Award, ShieldCheck, Heart, ArrowRight } from 'lucide-react';
-import { useGlobalLoading } from '../../components/LoadingContext';
 
 export default function AboutPage() {
-  const { startLoading, stopLoading } = useGlobalLoading();
 
-  useEffect(() => {
-    async function loadProducts() {
-      startLoading(); 
-      try {
-        await new Promise(resolve => setTimeout(resolve, 1500)); 
-      } finally {
-        stopLoading(); 
-      }
-    }
-    loadProducts();
-  }, []);
   const coreValues = [
     {
       icon: <Target className="text-[#9B77E7]" size={20} />,

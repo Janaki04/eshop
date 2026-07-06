@@ -4,7 +4,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import ProductDetails from './ProductDetails';
-import { useGlobalLoading } from '../../components/LoadingContext';
 
 const MOCK_PRODUCTS = [
   { id: 1, name: 'QuietComfort 45 Wireless Headphone', category: 'Audio', price: 329.99, rating: 4.8, reviews: 120, image: '🎧', discount: 0 },
@@ -20,20 +19,7 @@ const MOCK_PRODUCTS = [
 ];
 
 export default function ProductsPage({ cart = [], onAddToCart, onRemoveFromCart }) {
-  const { startLoading, stopLoading } = useGlobalLoading();
 
-  useEffect(() => {
-    async function loadProducts() {
-      startLoading(); // Starts full screen loader overlay
-      try {
-        // Fetch your product data here
-        await new Promise(resolve => setTimeout(resolve, 1500)); // Simulating API
-      } finally {
-        stopLoading(); // Closes full screen loader overlay
-      }
-    }
-    loadProducts();
-  }, []);
   const navigate = useNavigate();
   const [viewMode, setViewMode] = useState('grid');
   const [selectedCategory, setSelectedCategory] = useState('All Categories');

@@ -83,7 +83,7 @@ export default function RecommendedProducts({
             Recommended Products
           </h2>
           <a 
-            href="#view-all" 
+            href="products" 
             className="text-sm font-bold bg-gradient-to-r from-[#9B77E7] to-[#1600A0] bg-clip-text text-transparent hover:opacity-80 transition-opacity flex items-center gap-1"
           >
             View All <span className="text-xs">→</span>

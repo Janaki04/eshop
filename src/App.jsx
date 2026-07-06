@@ -3,6 +3,9 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import RecommendedProducts from './pages/landing/RecommendedProducts'
+import PromoGrid from './pages/landing/PromoGrid';
+import TechTalk from './pages/landing/TechTalk';
+import Faq from './pages/landing/Faq';
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import './App.css'
@@ -108,13 +111,16 @@ function AppContent() {
             element={
               <>
                 <HeroCarousel />
-                <RecommendedProducts 
+                <RecommendedProducts
                   cart={cart}
                   onAddToCart={handleAddToCart}
                   onUpdateQuantity={handleUpdateQuantity}
                   onRemoveFromCart={handleRemoveFromCart}
                   onAddToWishlist={handleAddToWishlist}
                 />
+                <TechTalk />
+                <Faq />
+                <PromoGrid />
               </>
             } 
           />

@@ -1,22 +1,8 @@
 import React, { useState } from 'react';
 import { MapPin, Phone, Mail, Clock, Plus, Minus } from 'lucide-react';
 import { toast } from 'react-toastify';
-import { useGlobalLoading } from '../../components/LoadingContext';
 
 export default function ContactPage() {
-  const { startLoading, stopLoading } = useGlobalLoading();
-
-  useEffect(() => {
-    async function loadProducts() {
-      startLoading(); 
-      try {
-        await new Promise(resolve => setTimeout(resolve, 1500)); 
-      } finally {
-        stopLoading(); 
-      }
-    }
-    loadProducts();
-  }, []);
   const [formData, setFormData] = useState({ name: 'Amelia Robert Watson', phone: '+123 456 7890', email: 'amelia.watson@eshop.com', message: '' });
   const [zoom, setZoom] = useState(13);
 

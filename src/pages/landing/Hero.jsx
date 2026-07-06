@@ -6,6 +6,7 @@ import PromoGrid from './PromoGrid';
 import TechTalk from './TechTalk';
 import Faq from './Faq';
 import { useGlobalLoading } from '../../components/LoadingContext';
+import { useNavigate } from 'react-router-dom';
 
 const SLIDES = [
   {
@@ -34,6 +35,7 @@ const SLIDES = [
 const AUTO_PLAY_SECONDS = 3;
 
 export default function HeroCarousel() {
+  const navigate=useNavigate()
   const { startLoading, stopLoading } = useGlobalLoading();
 
   useEffect(() => {
@@ -112,6 +114,7 @@ export default function HeroCarousel() {
                   <motion.button
                     whileHover={{ scale: 1.03, y: -2 }}
                     whileTap={{ scale: 0.98 }}
+                    onClick={()=>navigate('products')}
                     className="px-8 py-3.5 text-sm font-extrabold text-white bg-gradient-to-r from-[#9B77E7] to-[#1600A0] rounded-xl shadow-lg hover:shadow-purple-200 dark:hover:shadow-none transition-all duration-200"
                   >
                     {SLIDES[currentIndex].buttonText}
@@ -155,10 +158,7 @@ export default function HeroCarousel() {
         </div>
 
       </div>
-      <RecommendedProducts/>
-      <TechTalk/>
-      <Faq/>
-      <PromoGrid/>
+     
     </>
   );
 }

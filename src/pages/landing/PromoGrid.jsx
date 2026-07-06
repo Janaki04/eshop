@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 
 const PROMO_SLIDES = [
   {
@@ -32,6 +33,7 @@ const PROMO_SLIDES = [
 const CAROUSEL_INTERVAL_SECONDS = 5;
 
 export default function PromoGrid() {
+  const navigate = useNavigate();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(0);
 
@@ -106,6 +108,7 @@ export default function PromoGrid() {
                   <motion.button
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
+                    onClick={()=>navigate('products')}
                     className="px-8 py-3.5 text-xs font-black text-white bg-gradient-to-r from-[#9B77E7] to-[#1600A0] rounded-xl shadow-md uppercase tracking-wider transition-all"
                   >
                     {PROMO_SLIDES[currentIndex].buttonText}
